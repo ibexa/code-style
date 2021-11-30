@@ -189,8 +189,3 @@ class Config extends ConfigBase
         ]);
     }
 }
-
-/**
- * @deprecated Use \Ibexa\Platform\CodeStyle\PhpCsFixer\Config instead.
- */
-class_alias(Config::class, 'EzSystems\EzPlatformCodeStyle\PhpCsFixer\Config');
