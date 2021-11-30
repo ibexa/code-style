@@ -1,6 +1,6 @@
 {
-    "name": "ezsystems/ezplatform-code-style",
-    "description": "Ibexa Code Style knowledge base",
+    "name": "ibexa/code-style",
+    "description": "Ibexa Code Style Fixer",
     "type": "internal",
     "license": "(GPL-2.0-only or proprietary)",
     "authors": [
@@ -30,7 +30,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.0.x-dev"
+            "dev-main": "1.0.x-dev"
         }
     }
 }
