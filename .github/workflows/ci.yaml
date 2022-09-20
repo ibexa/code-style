@@ -12,22 +12,16 @@ jobs:
     name: Tests
     runs-on: "ubuntu-20.04"
     timeout-minutes: 5
-    continue-on-error: ${{ matrix.experimental }}
 
     strategy:
       fail-fast: false
       matrix:
-        experimental: [false]
         php:
-          - '7.1'
-          - '7.2'
           - '7.3'
           - '7.4'
+          - '8.0'
+          - '8.1'
         composer_options: [ "" ]
-        include:
-          - php: '8.0'
-            composer_options: "--ignore-platform-req php"
-            experimental: true
 
     steps:
       - uses: actions/checkout@v2
@@ -43,7 +37,7 @@ jobs:
       - uses: "ramsey/composer-install@v1"
         with:
           dependency-versions: "highest"
-          composer-options: "--prefer-dist --no-progress --no-suggest ${{ matrix.composer_options }}"
+          composer-options: "--prefer-dist --no-progress --no-suggest"
 
       - name: Run PHPStan analysis
         run: composer run-script phpstan
