@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - '[0-9]+.[0-9]+'
-      - master
+      - main
   pull_request: ~
 
 jobs:
@@ -17,11 +17,9 @@ jobs:
       fail-fast: false
       matrix:
         php:
-          - '7.3'
           - '7.4'
           - '8.0'
           - '8.1'
-        composer_options: [ "" ]
 
     steps:
       - uses: actions/checkout@v2
