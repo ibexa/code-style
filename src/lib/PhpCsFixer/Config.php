@@ -119,12 +119,7 @@ class Config extends ConfigBase
             'phpdoc_no_useless_inheritdoc' => true,
             'phpdoc_return_self_reference' => true,
             'phpdoc_scalar' => true,
-            'phpdoc_separation' => [
-                'groups' => [
-                    ['Assert\\*'],
-                    ['ORM\\*'],
-                ],
-            ],
+            'phpdoc_separation' => true,
             'phpdoc_single_line_var_spacing' => true,
             'phpdoc_summary' => true,
             'phpdoc_trim' => true,
