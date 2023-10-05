@@ -2,3 +2,8 @@ parameters:
     level: max
     paths:
         - src
+
+    ignoreErrors:
+        -
+            message: "#^Parameter \\#1 \\$rules of method PhpCsFixer\\\\Config\\:\\:setRules\\(\\) expects array\\<string, array\\<string, mixed\\>\\|bool\\>, array\\<string, mixed\\> given\\.$#"
+            path: src/lib/PhpCsFixer/InternalConfigFactory.php
