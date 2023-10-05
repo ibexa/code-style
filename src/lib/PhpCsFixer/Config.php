@@ -15,7 +15,7 @@ class Config extends ConfigBase
     /**
      * @param string $name
      */
-    public function __construct($name = 'default')
+    public function __construct(string $name = 'default')
     {
         parent::__construct($name);
 
@@ -33,7 +33,7 @@ class Config extends ConfigBase
             'lowercase_keywords' => true,
             'no_closing_tag' => true,
             'no_spaces_after_function_name' => true,
-            'no_spaces_inside_parenthesis' => true,
+            'spaces_inside_parentheses' => ['space' => 'none'],
             'no_trailing_whitespace' => true,
             'no_trailing_whitespace_in_comment' => true,
             'single_blank_line_at_eof' => true,
@@ -46,8 +46,8 @@ class Config extends ConfigBase
             'blank_line_before_statement' => [
                 'statements' => ['return'],
             ],
-            'braces' => [
-                'allow_single_line_closure' => true,
+            'braces_position' => [
+                'allow_single_line_anonymous_functions' => true,
             ],
             'class_attributes_separation' => [
                 'elements' => [
@@ -56,7 +56,7 @@ class Config extends ConfigBase
                 ],
             ],
             'declare_equal_normalize' => true,
-            'function_typehint_space' => true,
+            'type_declaration_spaces' => ['elements' => ['function', 'property']],
             'include' => true,
             'increment_style' => true,
             'lowercase_cast' => true,
@@ -65,8 +65,8 @@ class Config extends ConfigBase
             'magic_method_casing' => true,
             'method_argument_space' => true,
             'native_function_casing' => true,
-            'native_function_type_declaration_casing' => true,
-            'new_with_braces' => true,
+            'native_type_declaration_casing' => true,
+            'new_with_parentheses' => ['named_class' => true, 'anonymous_class' => true],
             'no_blank_lines_after_class_opening' => true,
             'no_blank_lines_after_phpdoc' => true,
             'no_empty_comment' => true,
@@ -87,10 +87,9 @@ class Config extends ConfigBase
             'no_short_bool_cast' => true,
             'no_singleline_whitespace_before_semicolons' => true,
             'no_spaces_around_offset' => true,
-            'no_trailing_comma_in_list_call' => true,
-            'no_trailing_comma_in_singleline_array' => true,
+            'no_trailing_comma_in_singleline' => ['elements' => ['arguments', 'array_destructuring', 'array', 'group_import']],
             'no_unneeded_control_parentheses' => true,
-            'no_unneeded_curly_braces' => true,
+            'no_unneeded_braces' => true,
             'no_unneeded_final_method' => true,
             'no_unused_imports' => true,
             'no_whitespace_before_comma_in_array' => true,
@@ -173,7 +172,7 @@ class Config extends ConfigBase
             'phpdoc_to_comment' => false,
             'cast_spaces' => false,
             'blank_line_after_opening_tag' => false,
-            'single_blank_line_before_namespace' => true,
+            'blank_lines_before_namespace' => true,
             'space_after_semicolon' => false,
             'native_function_invocation' => false,
             'phpdoc_types_order' => [
