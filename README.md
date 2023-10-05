@@ -4,6 +4,19 @@ This package contains Ibexa Coding Standards which are aimed to include plugins
 for code style tools, plugins for CI, IDE settings, Git hooks, GitHub templates related  
 to contributions, etc.
 
+## Installation and backward compatibility promise
+
+This package doesn't follow strict SemVer BC promise due to maintenance reasons.
+Backward compatibility is guaranteed within a single minor release, instead of a major one.
+
+We recommend installing it using tilde (`~`) composer constraint followed by `X.Y.Z` version number format, e.g.: 
+```bash
+composer req --dev ibexa/code-style:~2.0.0
+```
+This ensures that composer will install `v2.0.*` patch releases only.
+Minor releases might receive configuration updates either needed by [Ibexa DXP](https://www.ibexa.co/products)
+packages or other changes forced by PHP CS Fixer package itself. 
+
 ## Usage
 
 ### Third party packages

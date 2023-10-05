@@ -14,12 +14,12 @@
     },
     "require": {
         "php": ">=7.4",
-        "friendsofphp/php-cs-fixer": "3.30.0",
+        "friendsofphp/php-cs-fixer": "v3.34.1",
         "adamwojs/php-cs-fixer-phpdoc-force-fqcn": "^2.0"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
-        "phpstan/phpstan": "^0.12.91"
+        "phpstan/phpstan": "^1.10.37"
     },
     "autoload": {
         "psr-4": {
@@ -33,7 +33,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "1.3.x-dev"
+            "dev-main": "2.0.x-dev"
         }
     }
 }
