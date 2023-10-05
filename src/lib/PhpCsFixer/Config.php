@@ -185,6 +185,11 @@ class Config extends ConfigBase
             'self_accessor' => false,
             'static_lambda' => true,
             'ordered_imports' => true,
+            'class_definition' => [
+                'single_item_single_line' => true,
+                'inline_constructor_arguments' => false,
+            ],
+            'php_unit_test_case_static_method_calls' => ['call_type' => 'self'],
         ]);
     }
 }
