@@ -1,4 +1,6 @@
 parameters:
-    level: max
+    level: 8
+    treatPhpDocTypesAsCertain: false
+    checkMissingCallableSignature: true
     paths:
         - src
