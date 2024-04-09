@@ -18,9 +18,6 @@ use PhpCsFixer\ConfigInterface;
  */
 final class InternalConfigFactory
 {
-    /** @deprecated Use IBEXA_PHP_HEADER constant instead. */
-    public const EZPLATFORM_PHP_HEADER = self::IBEXA_PHP_HEADER;
-
     public const IBEXA_PHP_HEADER = <<<'EOF'
 @copyright Copyright (C) Ibexa AS. All rights reserved.
 @license For full copyright and license information view LICENSE file distributed with this source code.
