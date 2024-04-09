@@ -24,7 +24,7 @@ final class InternalConfigFactory
 EOF;
 
     /** @var array<string, mixed> */
-    private $customRules = [];
+    private array $customRules = [];
 
     /**
      * @param array<string, mixed> $rules
@@ -46,7 +46,7 @@ EOF;
         $specificRules = [
             'header_comment' => [
                 'comment_type' => 'PHPDoc',
-                'header' => static::IBEXA_PHP_HEADER,
+                'header' => self::IBEXA_PHP_HEADER,
                 'location' => 'after_open',
                 'separate' => 'top',
             ],
@@ -63,8 +63,6 @@ EOF;
 
     public static function build(): ConfigInterface
     {
-        $self = new self();
-
-        return $self->buildConfig();
+        return (new self())->buildConfig();
     }
 }
