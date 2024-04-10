@@ -4,28 +4,25 @@ on:
   push:
     branches:
       - '[0-9]+.[0-9]+'
-      - master
+      - main
   pull_request: ~
 
 jobs:
   tests:
     name: Tests
-    runs-on: "ubuntu-20.04"
+    runs-on: "ubuntu-22.04"
     timeout-minutes: 5
-    continue-on-error: ${{ matrix.experimental }}
 
     strategy:
       fail-fast: false
       matrix:
-        experimental: [false]
         php:
           - '7.4'
           - '8.0'
           - '8.1'
-        composer_options: [ "" ]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Setup PHP Action
         uses: shivammathur/setup-php@v2
@@ -35,10 +32,10 @@ jobs:
           extensions: pdo_sqlite, gd
           tools: cs2pr
 
-      - uses: "ramsey/composer-install@v1"
+      - uses: ramsey/composer-install@v3
         with:
           dependency-versions: "highest"
-          composer-options: "--prefer-dist --no-progress --no-suggest ${{ matrix.composer_options }}"
+          composer-options: "--prefer-dist --no-progress --no-suggest"
 
       - name: Run PHPStan analysis
         run: composer run-script phpstan
