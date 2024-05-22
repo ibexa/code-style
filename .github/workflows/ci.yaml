@@ -41,4 +41,7 @@ jobs:
         run: composer run-script phpstan
 
       - name: Run code style check
+        run: composer run-script test
+
+      - name: Run code style check
         run: composer run-script check-cs -- --format=checkstyle | cs2pr
