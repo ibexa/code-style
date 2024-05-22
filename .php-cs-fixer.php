@@ -7,11 +7,16 @@
 declare(strict_types=1);
 
 use Ibexa\CodeStyle\PhpCsFixer\InternalConfigFactory;
+use Ibexa\CodeStyle\PhpCsFixer\Sets;
 
 $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__)
     ->files()->name('*.php');
 
-return InternalConfigFactory::build()
-    ->setFinder($finder)
-;
+$configFactory = new InternalConfigFactory();
+$configFactory->withRuleSet(new Sets\Ibexa50RuleSet());
+
+$config = $configFactory->buildConfig();
+$config->setFinder($finder);
+
+return $config;
