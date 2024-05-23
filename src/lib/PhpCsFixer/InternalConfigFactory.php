@@ -18,10 +18,10 @@ use PhpCsFixer\ConfigInterface;
  */
 final class InternalConfigFactory
 {
-    /** @deprecated Use AbstractIbexaRuleSet::IBEXA_PHP_HEADER constant instead. */
+    /** @deprecated 1.3.0 The "InternalConfigFactory::EZPLATFORM_PHP_HEADER" constant has been deprecated, will be removed in 2.0. Use AbstractIbexaRuleSet::IBEXA_PHP_HEADER constant instead. */
     public const EZPLATFORM_PHP_HEADER = self::IBEXA_PHP_HEADER;
 
-    /** @deprecated use AbstractIbexaRuleSet::IBEXA_PHP_HEADER constant instead */
+    /** @deprecated 1.3.0 The "InternalConfigFactory::IBEXA_PHP_HEADER" constant has been deprecated, will be removed in 2.0. Use AbstractIbexaRuleSet::IBEXA_PHP_HEADER constant instead. */
     public const IBEXA_PHP_HEADER = Sets\AbstractIbexaRuleSet::IBEXA_PHP_HEADER;
 
     /** @var array<string, mixed> */
