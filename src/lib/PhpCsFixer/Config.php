@@ -11,7 +11,7 @@ namespace Ibexa\CodeStyle\PhpCsFixer;
 use PhpCsFixer\Config as ConfigBase;
 
 /**
- * @deprecated Use RuleSetInterface or InternalConfigFactory instead
+ * @deprecated 1.3.0 The "Config" class has been deprecated, will be removed in 2.0. Use RuleSetInterface or InternalConfigFactory instead.
  */
 class Config extends ConfigBase
 {
