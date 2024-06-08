@@ -110,7 +110,6 @@ class Config extends ConfigBase
             'phpdoc_no_alias_tag' => [
                 'replacements' => [
                     'type' => 'var',
-                    'link' => 'see',
                 ],
             ],
             'phpdoc_no_empty_return' => true,
