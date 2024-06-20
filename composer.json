@@ -19,14 +19,21 @@
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
-        "phpstan/phpstan": "^1.10.66"
+        "phpstan/phpstan": "^1.10",
+        "phpunit/phpunit": "^9.6"
     },
     "autoload": {
         "psr-4": {
             "Ibexa\\CodeStyle\\": "src/lib/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Ibexa\\Tests\\CodeStyle\\PhpCsFixer\\": "tests/lib/"
+        }
+    },
     "scripts": {
+        "test": "phpunit",
         "check-cs": "php-cs-fixer fix -v --diff --dry-run --show-progress=dots",
         "fix-cs": "php-cs-fixer fix -v --show-progress=dots",
         "phpstan": "phpstan analyse -c phpstan.neon"
