@@ -1,0 +1,25 @@
+name: Webhook callable
+
+on: workflow_dispatch
+
+jobs:
+  fix-cs:
+    name: Fix code style
+    runs-on: "ubuntu-22.04"
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP Action
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+          coverage: none
+          extensions: pdo_sqlite, gd
+          tools: cs2pr
+
+      - uses: ramsey/composer-install@v3
+
+      - name: Fix code style
+        run: composer run-script fix-cs
