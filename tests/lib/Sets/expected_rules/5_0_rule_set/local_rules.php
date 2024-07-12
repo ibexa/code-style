@@ -211,6 +211,9 @@ return [
             'property',
         ],
     ],
+    'types_spaces' => [
+        'space' => 'single',
+    ],
     'unary_operator_spaces' => true,
     'visibility_required' => true,
     'whitespace_after_comma_in_array' => true,
