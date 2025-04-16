@@ -4,3 +4,4 @@
 # PHP CS Fixer v3
 /.php-cs-fixer.cache
 /composer.lock
+/.phpunit.cache
