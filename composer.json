@@ -14,7 +14,7 @@
     },
     "require": {
         "php": ">=7.4",
-        "friendsofphp/php-cs-fixer": "v3.54.0",
+        "friendsofphp/php-cs-fixer": "v3.75.0",
         "adamwojs/php-cs-fixer-phpdoc-force-fqcn": "^2.0"
     },
     "require-dev": {
