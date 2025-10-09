@@ -30,7 +30,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Ibexa\\Tests\\CodeStyle\\PhpCsFixer\\": "tests/lib/"
+            "Ibexa\\Tests\\CodeStyle\\": "tests/lib/"
         }
     },
     "scripts": {
