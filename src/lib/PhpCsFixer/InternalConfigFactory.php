@@ -65,7 +65,7 @@ final class InternalConfigFactory
         }
 
         // Remove any suffix like -dev, -alpha, etc.
-        $version = preg_replace('/-.*$/', '', $version);
+        $version = (string)preg_replace('/-.*$/', '', $version);
 
         if (version_compare($version, '5.0.0', '>=')) {
             return new Sets\Ibexa50RuleSet();
