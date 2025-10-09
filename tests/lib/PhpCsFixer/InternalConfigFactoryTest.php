@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 declare(strict_types=1);
 
 namespace Ibexa\Tests\CodeStyle\PhpCsFixer;
@@ -9,6 +13,7 @@ use Ibexa\CodeStyle\PhpCsFixer\Sets\Ibexa46RuleSet;
 use Ibexa\CodeStyle\PhpCsFixer\Sets\Ibexa50RuleSet;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
+use ReflectionMethod;
 
 /**
  * @covers \Ibexa\CodeStyle\PhpCsFixer\InternalConfigFactory
@@ -16,7 +21,8 @@ use ReflectionClass;
 class InternalConfigFactoryTest extends TestCase
 {
     private InternalConfigFactory $factory;
-    private \ReflectionMethod $createRuleSetFromPackage;
+
+    private ReflectionMethod $createRuleSetFromPackage;
 
     protected function setUp(): void
     {
@@ -36,7 +42,7 @@ class InternalConfigFactoryTest extends TestCase
     {
         $ruleSet = $this->createRuleSetFromPackage->invoke($this->factory, $package);
 
-        $this->assertInstanceOf($expectedRuleSetClass, $ruleSet);
+        self::assertInstanceOf($expectedRuleSetClass, $ruleSet);
     }
 
     public function provideRuleSetTestCases(): array
@@ -82,6 +88,6 @@ class InternalConfigFactoryTest extends TestCase
         $customRuleSet = new Ibexa46RuleSet();
         $this->factory->withRuleSet($customRuleSet);
 
-        $this->assertSame($customRuleSet, $this->factory->getRuleSet());
+        self::assertSame($customRuleSet, $this->factory->getRuleSet());
     }
 }
