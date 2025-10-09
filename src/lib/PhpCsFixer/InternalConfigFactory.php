@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\CodeStyle\PhpCsFixer;
 
+use Composer\InstalledVersions;
 use Ibexa\CodeStyle\PhpCsFixer\Sets\RuleSetInterface;
 use PhpCsFixer\ConfigInterface;
 
@@ -42,7 +43,35 @@ final class InternalConfigFactory
 
     public function getRuleSet(): RuleSetInterface
     {
-        return $this->ruleSet ??= new Sets\Ibexa46RuleSet();
+        if (isset($this->ruleSet)) {
+            return $this->ruleSet;
+        }
+
+        return $this->ruleSet = $this->createRuleSetFromPackage(InstalledVersions::getRootPackage());
+    }
+
+    /**
+     * @param array{name: string, version: string, pretty_version?: string} $package
+     */
+    private function createRuleSetFromPackage(array $package): RuleSetInterface
+    {
+        if (!str_starts_with($package['name'], 'ibexa/')) {
+            return new Sets\Ibexa46RuleSet();
+        }
+
+        $version = $package['pretty_version'] ?? $package['version'];
+        if (str_starts_with($version, 'dev-') || $version === '*') {
+            return new Sets\Ibexa50RuleSet();
+        }
+
+        // Remove any suffix like -dev, -alpha, etc.
+        $version = preg_replace('/-.*$/', '', $version);
+
+        if (version_compare($version, '5.0.0', '>=')) {
+            return new Sets\Ibexa50RuleSet();
+        }
+
+        return new Sets\Ibexa46RuleSet();
     }
 
     public function buildConfig(): ConfigInterface
