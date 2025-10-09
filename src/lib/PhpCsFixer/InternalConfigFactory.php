@@ -43,11 +43,7 @@ final class InternalConfigFactory
 
     public function getRuleSet(): RuleSetInterface
     {
-        if (isset($this->ruleSet)) {
-            return $this->ruleSet;
-        }
-
-        return $this->ruleSet = $this->createRuleSetFromPackage(InstalledVersions::getRootPackage());
+        return $this->ruleSet ??= $this->createRuleSetFromPackage(InstalledVersions::getRootPackage());
     }
 
     /**
