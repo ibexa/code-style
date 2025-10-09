@@ -18,7 +18,7 @@ use ReflectionMethod;
 /**
  * @covers \Ibexa\CodeStyle\PhpCsFixer\InternalConfigFactory
  */
-class InternalConfigFactoryTest extends TestCase
+final class InternalConfigFactoryTest extends TestCase
 {
     private InternalConfigFactory $factory;
 
