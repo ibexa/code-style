@@ -81,14 +81,14 @@ function test(
         yield 'constructor with properties should be split' => [
             '<?php
 class Test {
-    public function __construct(private string $foo, private int $bar) {
+    public function __construct(string $foo, int $bar) {
     }
 }',
             '<?php
 class Test {
     public function __construct(
-        private string $foo,
-        private int $bar
+        string $foo,
+        int $bar
     ) {
     }
 }',
