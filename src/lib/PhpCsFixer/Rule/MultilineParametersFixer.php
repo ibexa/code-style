@@ -44,6 +44,10 @@ final class MultilineParametersFixer extends AbstractFixer
             }
 
             $openParenIndex = $tokens->getNextTokenOfKind($index, ['(']);
+            if ($openParenIndex === null) {
+                continue;
+            }
+
             $closeParenIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $openParenIndex);
 
             // Count commas to determine parameter count
@@ -150,7 +154,7 @@ final class MultilineParametersFixer extends AbstractFixer
 
         // Handle the opening brace
         $nextNonWhitespace = $tokens->getNextNonWhitespace($closeParenIndex);
-        if ($nextNonWhitespace !== null && $tokens[$nextNonWhitespace]->equals(T_CURLY_OPEN)) {
+        if ($nextNonWhitespace !== null && $tokens[$nextNonWhitespace]->equals('{')) {
             $tokens->ensureWhitespaceAtIndex($nextNonWhitespace - 1, 1, ' ');
         }
     }
