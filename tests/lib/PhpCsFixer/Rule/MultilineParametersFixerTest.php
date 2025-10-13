@@ -11,6 +11,7 @@ namespace Ibexa\Tests\CodeStyle\PhpCsFixer\Rule;
 use Ibexa\CodeStyle\PhpCsFixer\Rule\MultilineParametersFixer;
 use PhpCsFixer\Tokenizer\Tokens;
 use PHPUnit\Framework\TestCase;
+use SplFileInfo;
 
 final class MultilineParametersFixerTest extends TestCase
 {
@@ -29,7 +30,7 @@ final class MultilineParametersFixerTest extends TestCase
         string $expected
     ): void {
         $tokens = Tokens::fromCode($input);
-        $this->fixer->fix(new \SplFileInfo(__FILE__), $tokens);
+        $this->fixer->fix(new SplFileInfo(__FILE__), $tokens);
 
         self::assertSame($expected, $tokens->generateCode());
     }
