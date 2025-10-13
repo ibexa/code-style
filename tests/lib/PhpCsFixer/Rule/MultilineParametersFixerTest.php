@@ -34,6 +34,9 @@ final class MultilineParametersFixerTest extends TestCase
         self::assertSame($expected, $tokens->generateCode());
     }
 
+    /**
+     * @return iterable<string, array{0: string, 1: string}>
+     */
     public static function provideFixCases(): iterable
     {
         yield 'single parameter should not be modified' => [
