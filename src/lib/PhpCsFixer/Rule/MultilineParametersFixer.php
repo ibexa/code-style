@@ -48,10 +48,10 @@ final class MultilineParametersFixer extends AbstractFixer
                 continue;
             }
 
-            $closeParenIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $openParentIndex);
+            $closeParentIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $openParentIndex);
 
             // Count commas to determine parameter count
-            $paramCount = $this->countParameters($tokens, $openParentIndex, $closeParenIndex);
+            $paramCount = $this->countParameters($tokens, $openParentIndex, $closeParentIndex);
 
             // Only process if 2+ parameters
             if ($paramCount < 2) {
@@ -59,12 +59,12 @@ final class MultilineParametersFixer extends AbstractFixer
             }
 
             // Check if already multiline
-            if ($this->isMultiline($tokens, $openParentIndex, $closeParenIndex)) {
+            if ($this->isMultiline($tokens, $openParentIndex, $closeParentIndex)) {
                 continue;
             }
 
             // Apply multiline formatting
-            $this->makeMultiline($tokens, $openParentIndex, $closeParenIndex);
+            $this->makeMultiline($tokens, $openParentIndex, $closeParentIndex);
         }
     }
 
@@ -119,18 +119,18 @@ final class MultilineParametersFixer extends AbstractFixer
     private function makeMultiline(
         Tokens $tokens,
         int $openParentIndex,
-        int $closeParenIndex
+        int $closeParentIndex
     ): void {
         $indent = $this->detectIndent($tokens, $openParentIndex);
         $lineIndent = str_repeat(' ', 4); // 4 spaces for parameters
 
         // Add newline after opening parenthesis
         $tokens->insertAt($openParentIndex + 1, new Token([T_WHITESPACE, "\n" . $indent . $lineIndent]));
-        ++$closeParenIndex;
+        ++$closeParentIndex;
 
         // Find all commas and add newlines after them
         $depth = 0;
-        for ($i = $openParentIndex + 1; $i < $closeParenIndex; ++$i) {
+        for ($i = $openParentIndex + 1; $i < $closeParentIndex; ++$i) {
             if ($tokens[$i]->equals('(') || $tokens[$i]->equals('[')) {
                 ++$depth;
             } elseif ($tokens[$i]->equals(')') || $tokens[$i]->equals(']')) {
@@ -138,22 +138,22 @@ final class MultilineParametersFixer extends AbstractFixer
             } elseif ($depth === 0 && $tokens[$i]->equals(',')) {
                 // Remove any whitespace after comma
                 $nextIndex = $i + 1;
-                while ($nextIndex < $closeParenIndex && $tokens[$nextIndex]->isWhitespace()) {
+                while ($nextIndex < $closeParentIndex && $tokens[$nextIndex]->isWhitespace()) {
                     $tokens->clearAt($nextIndex);
                     ++$nextIndex;
                 }
 
                 // Insert newline with proper indentation
                 $tokens->insertAt($i + 1, new Token([T_WHITESPACE, "\n" . $indent . $lineIndent]));
-                $closeParenIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $openParentIndex);
+                $closeParentIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $openParentIndex);
             }
         }
 
         // Add newline before closing parenthesis
-        $tokens->insertAt($closeParenIndex, new Token([T_WHITESPACE, "\n" . $indent]));
+        $tokens->insertAt($closeParentIndex, new Token([T_WHITESPACE, "\n" . $indent]));
 
         // Handle the opening brace
-        $nextNonWhitespace = $tokens->getNextNonWhitespace($closeParenIndex);
+        $nextNonWhitespace = $tokens->getNextNonWhitespace($closeParentIndex);
         if ($nextNonWhitespace !== null && $tokens[$nextNonWhitespace]->equals('{')) {
             $tokens->ensureWhitespaceAtIndex($nextNonWhitespace - 1, 1, ' ');
         }
