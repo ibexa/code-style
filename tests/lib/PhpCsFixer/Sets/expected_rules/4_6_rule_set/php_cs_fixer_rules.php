@@ -179,5 +179,4 @@ return [
     'no_trailing_comma_in_singleline_array' => true,
     'no_unneeded_curly_braces' => true,
     'single_blank_line_before_namespace' => true,
-    'Ibexa/multiline_parameters' => true,
 ];

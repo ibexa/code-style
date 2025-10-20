@@ -4,4 +4,3 @@ parameters:
     checkMissingCallableSignature: true
     paths:
         - src
-        - tests

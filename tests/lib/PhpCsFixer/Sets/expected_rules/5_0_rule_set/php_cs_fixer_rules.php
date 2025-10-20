@@ -204,5 +204,4 @@ return [
     'types_spaces' => [
         'space' => 'single',
     ],
-    'Ibexa/multiline_parameters' => true,
 ];
