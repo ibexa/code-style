@@ -218,4 +218,5 @@ return [
     'visibility_required' => true,
     'whitespace_after_comma_in_array' => true,
     'yoda_style' => false,
+    'Ibexa/multiline_parameters' => true,
 ];

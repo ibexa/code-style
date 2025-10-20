@@ -37,14 +37,22 @@ final class InternalConfigFactoryTest extends TestCase
 
     /**
      * @dataProvider provideRuleSetTestCases
+     *
+     * @param array{name: string, version: string, pretty_version?: string} $package
+     * @param class-string $expectedRuleSetClass
      */
-    public function testVersionBasedRuleSetSelection(array $package, string $expectedRuleSetClass): void
-    {
+    public function testVersionBasedRuleSetSelection(
+        array $package,
+        string $expectedRuleSetClass
+    ): void {
         $ruleSet = $this->createRuleSetFromPackage->invoke($this->factory, $package);
 
         self::assertInstanceOf($expectedRuleSetClass, $ruleSet);
     }
 
+    /**
+     * @return array<string, array{0: array{name: string, version: string, pretty_version?: string}, 1: class-string}>
+     */
     public function provideRuleSetTestCases(): array
     {
         return [
