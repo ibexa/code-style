@@ -11,7 +11,6 @@ use Ibexa\CodeStyle\PhpCsFixer\Sets\AbstractIbexaRuleSet;
 return [
     '@PER-CS2.0' => true,
     '@PSR12' => false,
-    'AdamWojs/phpdoc_force_fqcn_fixer' => true,
     'array_syntax' => [
         'syntax' => 'short',
     ],

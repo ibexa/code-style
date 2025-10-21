@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\CodeStyle\PhpCsFixer\Sets;
 
-use AdamWojs\PhpCsFixerPhpdocForceFQCN\Fixer\Phpdoc\ForceFQCNFixer;
 use Ibexa\CodeStyle\PhpCsFixer\Rule\MultilineParametersFixer;
 use PhpCsFixer\Config;
 
@@ -26,7 +25,6 @@ abstract class AbstractIbexaRuleSet implements RuleSetInterface
     {
         return [
             '@PSR12' => false,
-            'AdamWojs/phpdoc_force_fqcn_fixer' => true,
             'Ibexa/multiline_parameters' => true,
             'array_syntax' => [
                 'syntax' => 'short',
@@ -206,7 +204,7 @@ abstract class AbstractIbexaRuleSet implements RuleSetInterface
     public function buildConfig(): Config
     {
         $config = new Config();
-        $config->registerCustomFixers([new ForceFQCNFixer(), new MultilineParametersFixer()]);
+        $config->registerCustomFixers([new MultilineParametersFixer()]);
 
         $config->setRules(array_merge(
             $config->getRules(),

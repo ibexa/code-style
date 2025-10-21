@@ -56,7 +56,6 @@ return [
     'switch_case_space' => true,
     'encoding' => true,
     'full_opening_tag' => true,
-    'AdamWojs/phpdoc_force_fqcn_fixer' => true,
     'array_syntax' => [
         'syntax' => 'short',
     ],

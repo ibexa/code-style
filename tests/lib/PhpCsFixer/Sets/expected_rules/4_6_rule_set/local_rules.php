@@ -10,7 +10,6 @@ use Ibexa\CodeStyle\PhpCsFixer\Sets\AbstractIbexaRuleSet;
 
 return [
     '@PSR12' => false,
-    'AdamWojs/phpdoc_force_fqcn_fixer' => true,
     'array_syntax' => [
         'syntax' => 'short',
     ],
