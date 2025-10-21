@@ -179,4 +179,7 @@ return [
     'no_unneeded_curly_braces' => true,
     'single_blank_line_before_namespace' => true,
     'Ibexa/multiline_parameters' => true,
+    'fully_qualified_strict_types' => [
+        'import_symbols' => true,
+    ],
 ];
