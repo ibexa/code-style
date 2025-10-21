@@ -204,4 +204,7 @@ return [
         'space' => 'single',
     ],
     'Ibexa/multiline_parameters' => true,
+    'fully_qualified_strict_types' => [
+        'import_symbols' => true,
+    ],
 ];

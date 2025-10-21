@@ -198,6 +198,9 @@ abstract class AbstractIbexaRuleSet implements RuleSetInterface
             'visibility_required' => true,
             'whitespace_after_comma_in_array' => true,
             'yoda_style' => false,
+            'fully_qualified_strict_types' => [
+                'import_symbols' => true,
+            ],
         ];
     }
 
