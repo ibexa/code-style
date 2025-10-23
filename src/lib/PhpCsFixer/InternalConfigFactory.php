@@ -11,6 +11,8 @@ namespace Ibexa\CodeStyle\PhpCsFixer;
 use Composer\InstalledVersions;
 use Ibexa\CodeStyle\PhpCsFixer\Sets\RuleSetInterface;
 use PhpCsFixer\ConfigInterface;
+use PhpCsFixer\ParallelAwareConfigInterface;
+use PhpCsFixer\Runner\Parallel\ParallelConfigFactory;
 
 /**
  * Factory for Config instance that should be used for all internal Ibexa packages.
@@ -23,6 +25,8 @@ final class InternalConfigFactory
     private array $customRules = [];
 
     private RuleSetInterface $ruleSet;
+
+    private bool $runInParallel = false;
 
     /**
      * @param array<string, mixed> $rules
@@ -44,6 +48,13 @@ final class InternalConfigFactory
     public function getRuleSet(): RuleSetInterface
     {
         return $this->ruleSet ??= $this->createRuleSetFromPackage(InstalledVersions::getRootPackage());
+    }
+
+    public function runInParallel(bool $runInParallel = true): self
+    {
+        $this->runInParallel = $runInParallel;
+
+        return $this;
     }
 
     /**
@@ -78,11 +89,15 @@ final class InternalConfigFactory
             $this->customRules,
         ));
 
+        if ($this->runInParallel && $config instanceof ParallelAwareConfigInterface) {
+            $config->setParallelConfig(ParallelConfigFactory::detect());
+        }
+
         return $config;
     }
 
-    public static function build(): ConfigInterface
+    public static function build(bool $runInParallel = false): ConfigInterface
     {
-        return (new self())->buildConfig();
+        return (new self())->runInParallel($runInParallel)->buildConfig();
     }
 }
