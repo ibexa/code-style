@@ -14,7 +14,7 @@ final class Ibexa50RuleSet extends AbstractIbexaRuleSet
     {
         return array_merge(
             [
-                '@PER-CS2.0' => true,
+                '@PER-CS2x0' => true,
             ],
             parent::getRules(),
             [

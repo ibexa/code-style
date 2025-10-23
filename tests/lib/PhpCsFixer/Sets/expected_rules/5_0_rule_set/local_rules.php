@@ -9,7 +9,7 @@ declare(strict_types=1);
 use Ibexa\CodeStyle\PhpCsFixer\Sets\AbstractIbexaRuleSet;
 
 return [
-    '@PER-CS2.0' => true,
+    '@PER-CS2x0' => true,
     '@PSR12' => false,
     'array_syntax' => [
         'syntax' => 'short',
