@@ -11,6 +11,7 @@ namespace Ibexa\Tests\CodeStyle\PhpCsFixer;
 use Ibexa\CodeStyle\PhpCsFixer\InternalConfigFactory;
 use Ibexa\CodeStyle\PhpCsFixer\Sets\Ibexa46RuleSet;
 use Ibexa\CodeStyle\PhpCsFixer\Sets\Ibexa50RuleSet;
+use PhpCsFixer\ParallelAwareConfigInterface;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionMethod;
@@ -40,6 +41,8 @@ final class InternalConfigFactoryTest extends TestCase
      *
      * @param array{name: string, version: string, pretty_version?: string} $package
      * @param class-string $expectedRuleSetClass
+     *
+     * @throws \ReflectionException
      */
     public function testVersionBasedRuleSetSelection(
         array $package,
@@ -97,5 +100,40 @@ final class InternalConfigFactoryTest extends TestCase
         $this->factory->withRuleSet($customRuleSet);
 
         self::assertSame($customRuleSet, $this->factory->getRuleSet());
+    }
+
+    public function testRunInParallel(): void
+    {
+        // Note: sequential test instead of separate test cases on purpose
+
+        // sanity check
+        /** @var ParallelAwareConfigInterface $config */
+        $config = $this->factory->buildConfig();
+        self::assertSame(1, $config->getParallelConfig()->getMaxProcesses());
+
+        $this->factory->runInParallel();
+        /** @var ParallelAwareConfigInterface $config */
+        $config = $this->factory->buildConfig();
+        self::assertGreaterThan(1, $config->getParallelConfig()->getMaxProcesses());
+
+        // reset test
+        $this->factory->runInParallel(false);
+        /** @var ParallelAwareConfigInterface $config */
+        $config = $this->factory->buildConfig();
+        self::assertSame(1, $config->getParallelConfig()->getMaxProcesses());
+    }
+
+    public function testBuildWithoutRunInParallel(): void
+    {
+        $config = InternalConfigFactory::build();
+        self::assertInstanceOf(ParallelAwareConfigInterface::class, $config);
+        self::assertSame(1, $config->getParallelConfig()->getMaxProcesses());
+    }
+
+    public function testBuildWithRunInParallel(): void
+    {
+        $config = InternalConfigFactory::build(true);
+        self::assertInstanceOf(ParallelAwareConfigInterface::class, $config);
+        self::assertGreaterThan(1, $config->getParallelConfig()->getMaxProcesses());
     }
 }
