@@ -11,9 +11,9 @@ Backward compatibility is guaranteed within a single minor release, instead of a
 
 We recommend installing it using tilde (`~`) composer constraint followed by `X.Y.Z` version number format, e.g.: 
 ```bash
-composer req --dev ibexa/code-style:~2.0.0
+composer req --dev ibexa/code-style:~2.2.0
 ```
-This ensures that composer will install `v2.0.*` patch releases only.
+This ensures that composer will install `v2.2.*` patch releases only.
 Minor releases might receive configuration updates either needed by [Ibexa DXP](https://www.ibexa.co/products)
 packages or other changes forced by PHP CS Fixer package itself. 
 
