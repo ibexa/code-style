@@ -211,7 +211,7 @@ abstract class AbstractIbexaRuleSet implements RuleSetInterface
 
         $config->setRules(array_merge(
             $config->getRules(),
-            static::getRules(),
+            $this->getRules(),
         ));
 
         $config->setRiskyAllowed(true);
