@@ -43,6 +43,16 @@ $config->setFinder(
 return $config;
 ```
 
+> [!TIP]
+> You can configure a parallel run of PHP CS Fixer by either calling:
+> ```php
+> $factory->runInParallel();
+> ```
+> or
+> ```php
+> InternalConfigFactory::build(runInParallel: true)
+> ```
+
 ### Ibexa packages
 
 Create a `.php-cs-fixer.php` file in your project root directory with the following content:
