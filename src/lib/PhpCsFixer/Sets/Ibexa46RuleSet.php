@@ -15,17 +15,30 @@ final class Ibexa46RuleSet extends AbstractIbexaRuleSet
         return array_merge(
             parent::getRules(),
             [
-                'no_spaces_inside_parenthesis' => true,
-                'braces' => [
-                    'allow_single_line_closure' => true,
+                'spaces_inside_parentheses' => true,
+                'single_space_around_construct' => true,
+                'control_structure_braces' => true,
+                'control_structure_continuation_position' => true,
+                'no_multiple_statements_per_line' => true,
+                'declare_parentheses' => true,
+                'braces_position' => true,
+                'statement_indentation' => false,
+                'type_declaration_spaces' => true,
+                'native_type_declaration_casing' => true,
+                'new_with_parentheses' => true,
+                'no_trailing_comma_in_singleline' => true,
+                'no_unneeded_braces' => true,
+                'no_extra_blank_lines' => [
+                    'tokens' => [
+                        'curly_brace_block',
+                        'extra',
+                        'parenthesis_brace_block',
+                        'square_brace_block',
+                        'throw',
+                        'use',
+                    ],
                 ],
-                'function_typehint_space' => true,
-                'native_function_type_declaration_casing' => true,
-                'new_with_braces' => true,
-                'no_trailing_comma_in_list_call' => true,
-                'no_trailing_comma_in_singleline_array' => true,
-                'no_unneeded_curly_braces' => true,
-                'single_blank_line_before_namespace' => true,
+                'blank_lines_before_namespace' => true,
             ],
         );
     }

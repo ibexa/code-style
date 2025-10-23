@@ -195,7 +195,7 @@ abstract class AbstractIbexaRuleSet implements RuleSetInterface
             'trailing_comma_in_multiline' => true,
             'trim_array_spaces' => true,
             'unary_operator_spaces' => true,
-            'visibility_required' => true,
+            'modifier_keywords' => true,
             'whitespace_after_comma_in_array' => true,
             'yoda_style' => false,
             'fully_qualified_strict_types' => [
