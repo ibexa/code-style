@@ -32,6 +32,7 @@ final class Ibexa46RuleSet extends AbstractIbexaRuleSet
                 'no_trailing_comma_in_singleline' => true,
                 'no_unneeded_braces' => true,
                 'blank_lines_before_namespace' => true,
+                'single_line_empty_body' => true,
             ],
         );
     }
