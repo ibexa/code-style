@@ -33,6 +33,7 @@ final class Ibexa46RuleSet extends AbstractIbexaRuleSet
                 'no_unneeded_braces' => true,
                 'blank_lines_before_namespace' => true,
                 'single_line_empty_body' => true,
+                'blank_line_between_import_groups' => true,
             ],
         );
     }
