@@ -21,7 +21,10 @@ final class Ibexa46RuleSet extends AbstractIbexaRuleSet
                 'control_structure_continuation_position' => true,
                 'no_multiple_statements_per_line' => true,
                 'declare_parentheses' => true,
-                'braces_position' => true,
+                'braces_position' => [
+                    'allow_single_line_empty_anonymous_classes' => true,
+                    'allow_single_line_anonymous_functions' => true,
+                ],
                 'statement_indentation' => false,
                 'type_declaration_spaces' => true,
                 'native_type_declaration_casing' => true,
