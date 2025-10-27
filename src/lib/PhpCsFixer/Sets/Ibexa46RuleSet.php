@@ -31,16 +31,6 @@ final class Ibexa46RuleSet extends AbstractIbexaRuleSet
                 'new_with_parentheses' => true,
                 'no_trailing_comma_in_singleline' => true,
                 'no_unneeded_braces' => true,
-                'no_extra_blank_lines' => [
-                    'tokens' => [
-                        'curly_brace_block',
-                        'extra',
-                        'parenthesis_brace_block',
-                        'square_brace_block',
-                        'throw',
-                        'use',
-                    ],
-                ],
                 'blank_lines_before_namespace' => true,
             ],
         );
