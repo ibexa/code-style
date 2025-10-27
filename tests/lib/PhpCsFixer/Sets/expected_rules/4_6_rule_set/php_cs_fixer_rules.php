@@ -168,7 +168,10 @@ return [
     'concat_space' => [
         'spacing' => 'one',
     ],
-    'braces_position' => true,
+    'braces_position' => [
+        'allow_single_line_empty_anonymous_classes' => true,
+        'allow_single_line_anonymous_functions' => true,
+    ],
     'single_space_around_construct' => true,
     'control_structure_braces' => true,
     'control_structure_continuation_position' => true,
@@ -184,4 +187,6 @@ return [
     'fully_qualified_strict_types' => [
         'import_symbols' => true,
     ],
+    'single_line_empty_body' => true,
+    'blank_line_between_import_groups' => true,
 ];
