@@ -14,7 +14,7 @@ $finder = PhpCsFixer\Finder::create()
     ->files()->name('*.php');
 
 $configFactory = new InternalConfigFactory();
-$configFactory->withRuleSet(new Sets\Ibexa50RuleSet());
+$configFactory->runInParallel()->withRuleSet(new Sets\Ibexa50RuleSet());
 
 $config = $configFactory->buildConfig();
 $config->setFinder($finder);
