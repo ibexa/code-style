@@ -21,7 +21,6 @@ return [
     'declare_equal_normalize' => true,
     'lowercase_cast' => true,
     'lowercase_static_reference' => true,
-    'new_with_braces' => true,
     'no_blank_lines_after_class_opening' => true,
     'no_leading_import_slash' => true,
     'no_whitespace_in_blank_line' => true,
@@ -31,7 +30,7 @@ return [
     'single_import_per_statement' => true,
     'single_trait_insert_per_statement' => true,
     'ternary_operator_spaces' => true,
-    'visibility_required' => true,
+    'modifier_keywords' => true,
     'blank_line_after_namespace' => true,
     'constant_case' => [
         'case' => 'lower',
@@ -178,16 +177,15 @@ return [
     'trim_array_spaces' => true,
     'unary_operator_spaces' => true,
     'whitespace_after_comma_in_array' => true,
-    'braces' => [
-        'allow_single_line_closure' => true,
-    ],
+    'declare_parentheses' => true,
+    'new_with_parentheses' => true,
     'type_declaration_spaces' => [
         'elements' => [
             'function',
             'property',
         ],
     ],
-    'native_function_type_declaration_casing' => true,
+    'native_type_declaration_casing' => true,
     'no_trailing_comma_in_singleline' => [
         'elements' => [
             'arguments',
@@ -196,7 +194,7 @@ return [
             'group_import',
         ],
     ],
-    'no_unneeded_curly_braces' => true,
+    'no_unneeded_braces' => true,
     'php_unit_test_case_static_method_calls' => [
         'call_type' => 'self',
     ],

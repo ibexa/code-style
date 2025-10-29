@@ -9,7 +9,7 @@ declare(strict_types=1);
 use Ibexa\CodeStyle\PhpCsFixer\Sets\AbstractIbexaRuleSet;
 
 return [
-    '@PER-CS2.0' => true,
+    '@PER-CS2x0' => true,
     '@PSR12' => false,
     'array_syntax' => [
         'syntax' => 'short',
@@ -23,9 +23,8 @@ return [
         ],
     ],
     'blank_lines_before_namespace' => true,
-    'braces' => [
-        'allow_single_line_closure' => true,
-    ],
+    'declare_parentheses' => true,
+    'no_unneeded_braces' => true,
     'cast_spaces' => false,
     'class_attributes_separation' => [
         'elements' => [
@@ -86,8 +85,8 @@ return [
     ],
     'native_function_casing' => true,
     'native_function_invocation' => false,
-    'native_function_type_declaration_casing' => true,
-    'new_with_braces' => true,
+    'native_type_declaration_casing' => true,
+    'new_with_parentheses' => true,
     'no_alias_functions' => true,
     'no_blank_lines_after_class_opening' => true,
     'no_blank_lines_after_phpdoc' => true,
@@ -126,7 +125,6 @@ return [
     'no_trailing_whitespace' => true,
     'no_trailing_whitespace_in_comment' => true,
     'no_unneeded_control_parentheses' => true,
-    'no_unneeded_curly_braces' => true,
     'no_unneeded_final_method' => true,
     'no_unused_imports' => true,
     'no_whitespace_before_comma_in_array' => true,
@@ -214,7 +212,7 @@ return [
         'space' => 'single',
     ],
     'unary_operator_spaces' => true,
-    'visibility_required' => true,
+    'modifier_keywords' => true,
     'whitespace_after_comma_in_array' => true,
     'yoda_style' => false,
     'Ibexa/multiline_parameters' => true,
