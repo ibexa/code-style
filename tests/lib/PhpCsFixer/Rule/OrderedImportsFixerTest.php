@@ -81,7 +81,7 @@ final class OrderedImportsFixerTest extends TestCase
                     PHP,
             ];
 
-            yield $ruleSetName . ' const import is moved to its own group after function imports' => [
+            yield $ruleSetName . ' const import is moved to its own group after class imports' => [
                 $ruleSet,
                 <<<'PHP'
                     <?php
