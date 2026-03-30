@@ -9,33 +9,48 @@ declare(strict_types=1);
 namespace Ibexa\Tests\CodeStyle\PhpCsFixer\Rule;
 
 use Ibexa\CodeStyle\PhpCsFixer\Sets\Ibexa50RuleSet;
+use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Fixer\Import\OrderedImportsFixer;
+use PhpCsFixer\Fixer\Whitespace\BlankLineBetweenImportGroupsFixer;
 use PhpCsFixer\Tokenizer\Tokens;
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 
 final class OrderedImportsFixerTest extends TestCase
 {
-    private OrderedImportsFixer $fixer;
+    /** @var list<FixerInterface> */
+    private array $fixers;
 
     protected function setUp(): void
     {
-        $this->fixer = new OrderedImportsFixer();
-
         $orderedImportsRule = (new Ibexa50RuleSet())->getRules()['ordered_imports'];
         self::assertIsArray($orderedImportsRule);
-        $this->fixer->configure($orderedImportsRule);
+
+        $orderedImportsFixer = new OrderedImportsFixer();
+        $orderedImportsFixer->configure($orderedImportsRule);
+
+        $this->fixers = [
+            $orderedImportsFixer,
+            new BlankLineBetweenImportGroupsFixer(),
+        ];
     }
 
     /**
      * @dataProvider provideFixCases
      */
-    public function testFixDoesNotSplitImportTypesIntoSeparateGroups(
+    public function testFixGroupsAndSortsImportsByType(
         string $input,
         string $expected
     ): void {
         $tokens = Tokens::fromCode($input);
-        $this->fixer->fix(new SplFileInfo(__FILE__), $tokens);
+
+        foreach ($this->fixers as $fixer) {
+            if (!$fixer->isCandidate($tokens)) {
+                continue;
+            }
+
+            $fixer->fix(new SplFileInfo(__FILE__), $tokens);
+        }
 
         self::assertSame($expected, $tokens->generateCode());
     }
@@ -45,7 +60,7 @@ final class OrderedImportsFixerTest extends TestCase
      */
     public static function provideFixCases(): iterable
     {
-        yield 'function import stays in the same block as class imports' => [
+        yield 'function import is moved to its own group after class imports' => [
             <<<'PHP'
                 <?php
                 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -55,12 +70,13 @@ final class OrderedImportsFixerTest extends TestCase
             <<<'PHP'
                 <?php
                 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-                use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
                 use Symfony\Component\DependencyInjection\Reference;
+
+                use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
                 PHP,
         ];
 
-        yield 'const import stays in the same block as class imports' => [
+        yield 'const import is moved to its own group after function imports' => [
             <<<'PHP'
                 <?php
                 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -70,12 +86,13 @@ final class OrderedImportsFixerTest extends TestCase
             <<<'PHP'
                 <?php
                 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-                use const Symfony\Component\DependencyInjection\Loader\Configurator\SOME_CONST;
                 use Symfony\Component\DependencyInjection\Reference;
+
+                use const Symfony\Component\DependencyInjection\Loader\Configurator\SOME_CONST;
                 PHP,
         ];
 
-        yield 'mixed import types are sorted alphabetically without grouping' => [
+        yield 'mixed import types are sorted alphabetically within separate groups' => [
             <<<'PHP'
                 <?php
                 use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
@@ -86,9 +103,11 @@ final class OrderedImportsFixerTest extends TestCase
             <<<'PHP'
                 <?php
                 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-                use const Symfony\Component\DependencyInjection\Loader\Configurator\SOME_CONST;
-                use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
                 use Symfony\Component\DependencyInjection\Reference;
+
+                use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
+
+                use const Symfony\Component\DependencyInjection\Loader\Configurator\SOME_CONST;
                 PHP,
         ];
     }

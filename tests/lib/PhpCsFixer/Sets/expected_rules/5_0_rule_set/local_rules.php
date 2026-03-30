@@ -133,7 +133,7 @@ return [
     'normalize_index_brace' => true,
     'object_operator_without_whitespace' => true,
     'ordered_imports' => [
-        'imports_order' => null,
+        'imports_order' => ['class', 'function', 'const'],
         'sort_algorithm' => 'alpha',
     ],
     'php_unit_construct' => true,

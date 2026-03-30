@@ -16,7 +16,7 @@ return [
     'no_leading_import_slash' => true,
     'no_whitespace_in_blank_line' => true,
     'ordered_imports' => [
-        'imports_order' => null,
+        'imports_order' => ['class', 'function', 'const'],
         'sort_algorithm' => 'alpha',
     ],
     'return_type_declaration' => true,
