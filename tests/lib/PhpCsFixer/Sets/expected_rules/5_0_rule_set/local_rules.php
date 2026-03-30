@@ -132,7 +132,10 @@ return [
     'non_printable_character' => true,
     'normalize_index_brace' => true,
     'object_operator_without_whitespace' => true,
-    'ordered_imports' => true,
+    'ordered_imports' => [
+        'imports_order' => null,
+        'sort_algorithm' => 'alpha',
+    ],
     'php_unit_construct' => true,
     'php_unit_fqcn_annotation' => true,
     'php_unit_mock_short_will_return' => false,

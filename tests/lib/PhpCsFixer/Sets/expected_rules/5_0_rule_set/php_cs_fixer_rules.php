@@ -24,7 +24,10 @@ return [
     'no_blank_lines_after_class_opening' => true,
     'no_leading_import_slash' => true,
     'no_whitespace_in_blank_line' => true,
-    'ordered_imports' => true,
+    'ordered_imports' => [
+        'imports_order' => null,
+        'sort_algorithm' => 'alpha',
+    ],
     'return_type_declaration' => true,
     'short_scalar_cast' => true,
     'single_import_per_statement' => true,
