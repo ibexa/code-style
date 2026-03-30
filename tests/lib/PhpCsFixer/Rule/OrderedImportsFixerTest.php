@@ -34,7 +34,7 @@ final class OrderedImportsFixerTest extends TestCase
         $orderedImportsFixer = new OrderedImportsFixer();
         $orderedImportsFixer->configure($orderedImportsRule);
 
-        /** @var list<FixerInterface> $fixers */
+        /** @var array<int, FixerInterface> $fixers */
         $fixers = [
             $orderedImportsFixer,
             new BlankLineBetweenImportGroupsFixer(),
