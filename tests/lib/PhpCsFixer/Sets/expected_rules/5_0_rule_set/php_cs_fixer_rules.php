@@ -103,6 +103,7 @@ return [
         'scope' => 'namespaced',
     ],
     'native_function_casing' => true,
+    'native_function_invocation' => true,
     'no_alias_functions' => true,
     'no_blank_lines_after_phpdoc' => true,
     'no_empty_comment' => true,
