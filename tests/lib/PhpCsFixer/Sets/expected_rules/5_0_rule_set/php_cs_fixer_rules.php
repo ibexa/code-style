@@ -208,4 +208,5 @@ return [
     'fully_qualified_strict_types' => [
         'import_symbols' => true,
     ],
+    'attribute_block_no_spaces' => true,
 ];

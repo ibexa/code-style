@@ -89,8 +89,12 @@ final class InternalConfigFactory
             $this->customRules,
         ));
 
-        if ($this->runInParallel && $config instanceof ParallelAwareConfigInterface) {
-            $config->setParallelConfig(ParallelConfigFactory::detect());
+        if ($config instanceof ParallelAwareConfigInterface) {
+            $config->setParallelConfig(
+                $this->runInParallel
+                    ? ParallelConfigFactory::detect()
+                    : ParallelConfigFactory::sequential()
+            );
         }
 
         return $config;
