@@ -41,76 +41,100 @@ final class MultilineParametersFixerTest extends TestCase
     public static function provideFixCases(): iterable
     {
         yield 'single parameter should not be modified' => [
-            '<?php
-function bar(array $package): void {
-}',
-            '<?php
-function bar(array $package): void {
-}',
+            <<<'PHP'
+                <?php
+                function bar(array $package): void {
+                }
+                PHP,
+            <<<'PHP'
+                <?php
+                function bar(array $package): void {
+                }
+                PHP,
         ];
 
         yield 'single parameter with type hints should not be modified' => [
-            '<?php
-function bar(?string $package = null): void {
-}',
-            '<?php
-function bar(?string $package = null): void {
-}',
+            <<<'PHP'
+                <?php
+                function bar(?string $package = null): void {
+                }
+                PHP,
+            <<<'PHP'
+                <?php
+                function bar(?string $package = null): void {
+                }
+                PHP,
         ];
 
         yield 'multiple parameters should be split' => [
-            '<?php
-function foo(array $package, string $expectedRuleSetClass): void {
-}',
-            '<?php
-function foo(
-    array $package,
-    string $expectedRuleSetClass
-): void {
-}',
+            <<<'PHP'
+                <?php
+                function foo(array $package, string $expectedRuleSetClass): void {
+                }
+                PHP,
+            <<<'PHP'
+                <?php
+                function foo(
+                    array $package,
+                    string $expectedRuleSetClass
+                ): void {
+                }
+                PHP,
         ];
 
         yield 'multiple parameters with type hints should be split' => [
-            '<?php
-function test(?string $foo = null, int $bar = 42): string {
-}',
-            '<?php
-function test(
-    ?string $foo = null,
-    int $bar = 42
-): string {
-}',
+            <<<'PHP'
+                <?php
+                function test(?string $foo = null, int $bar = 42): string {
+                }
+                PHP,
+            <<<'PHP'
+                <?php
+                function test(
+                    ?string $foo = null,
+                    int $bar = 42
+                ): string {
+                }
+                PHP,
         ];
 
         yield 'constructor with properties should be split' => [
-            '<?php
-class Test {
-    public function __construct(string $foo, int $bar) {
-    }
-}',
-            '<?php
-class Test {
-    public function __construct(
-        string $foo,
-        int $bar
-    ) {
-    }
-}',
+            <<<'PHP'
+                <?php
+                class Test {
+                    public function __construct(string $foo, int $bar) {
+                    }
+                }
+                PHP,
+            <<<'PHP'
+                <?php
+                class Test {
+                    public function __construct(
+                        string $foo,
+                        int $bar
+                    ) {
+                    }
+                }
+                PHP,
         ];
 
         yield 'already multiline should not be modified' => [
-            '<?php
-function test(
-    string $foo,
-    int $bar
-): void {
-}',
-            '<?php
-function test(
-    string $foo,
-    int $bar
-): void {
-}',
+            <<<'PHP'
+                <?php
+                function test(
+                    string $foo,
+                    int $bar
+                ): void {
+                }
+                PHP,
+            <<<'PHP'
+                <?php
+                function test(
+                    string $foo,
+                    int $bar
+                ): void {
+                }
+                PHP,
         ];
     }
 }
