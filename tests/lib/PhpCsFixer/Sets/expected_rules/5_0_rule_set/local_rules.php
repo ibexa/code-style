@@ -84,7 +84,7 @@ return [
         'scope' => 'namespaced',
     ],
     'native_function_casing' => true,
-    'native_function_invocation' => false,
+    'native_function_invocation' => true,
     'native_type_declaration_casing' => true,
     'new_with_parentheses' => true,
     'no_alias_functions' => true,
