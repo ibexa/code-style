@@ -1,16 +1,17 @@
-name: CI
+name: Backend CI
 
 on:
   push:
     branches:
       - '[0-9]+.[0-9]+'
-      - master
+      - main
   pull_request: ~
+  workflow_dispatch: ~
 
 jobs:
   tests:
     name: Tests
-    runs-on: "ubuntu-20.04"
+    runs-on: "ubuntu-26.04"
     timeout-minutes: 5
     continue-on-error: ${{ matrix.experimental }}
 
@@ -30,23 +31,22 @@ jobs:
             experimental: true
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v7
 
-      - name: Setup PHP Action
-        uses: shivammathur/setup-php@v2
+      - uses: ibexa/gh-workflows/actions/composer-install@main
         with:
           php-version: ${{ matrix.php }}
-          coverage: none
-          extensions: pdo_sqlite, gd
-          tools: cs2pr
-
-      - uses: "ramsey/composer-install@v1"
-        with:
-          dependency-versions: "highest"
+          gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
+          gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
+          satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
+          satis-network-token: ${{ secrets.SATIS_NETWORK_TOKEN }}
           composer-options: "--prefer-dist --no-progress --no-suggest ${{ matrix.composer_options }}"
 
       - name: Run PHPStan analysis
         run: composer run-script phpstan
 
       - name: Run code style check
-        run: composer run-script check-cs -- --format=checkstyle | cs2pr
+        shell: bash
+        run: |
+          set -euo pipefail
+          composer run-script check-cs -- --format=checkstyle | cs2pr
