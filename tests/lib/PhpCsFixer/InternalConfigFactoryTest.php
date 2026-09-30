@@ -11,6 +11,7 @@ namespace Ibexa\Tests\CodeStyle\PhpCsFixer;
 use Ibexa\CodeStyle\PhpCsFixer\InternalConfigFactory;
 use Ibexa\CodeStyle\PhpCsFixer\Sets\Ibexa46RuleSet;
 use Ibexa\CodeStyle\PhpCsFixer\Sets\Ibexa50RuleSet;
+use Ibexa\CodeStyle\PhpCsFixer\Sets\Ibexa60RuleSet;
 use PhpCsFixer\ParallelAwareConfigInterface;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
@@ -75,9 +76,13 @@ final class InternalConfigFactoryTest extends TestCase
                 ['name' => 'ibexa/core', 'version' => '5.1.0'],
                 Ibexa50RuleSet::class,
             ],
+            'ibexa_package_6_0' => [
+                ['name' => 'ibexa/core', 'version' => '6.0.0'],
+                Ibexa60RuleSet::class,
+            ],
             'ibexa_package_dev_master' => [
                 ['name' => 'ibexa/core', 'version' => 'dev-master'],
-                Ibexa50RuleSet::class,
+                Ibexa60RuleSet::class,
             ],
             'ibexa_package_with_pretty_version' => [
                 ['name' => 'ibexa/core', 'version' => '5.0.0', 'pretty_version' => '5.0.0-alpha1'],
@@ -85,7 +90,7 @@ final class InternalConfigFactoryTest extends TestCase
             ],
             'ibexa_package_wildcard' => [
                 ['name' => 'ibexa/core', 'version' => '*'],
-                Ibexa50RuleSet::class,
+                Ibexa60RuleSet::class,
             ],
             'ibexa_package_4_6_with_suffix' => [
                 ['name' => 'ibexa/core', 'version' => '4.6.0-beta1'],
@@ -99,9 +104,13 @@ final class InternalConfigFactoryTest extends TestCase
                 ['name' => 'ibexa/core', 'version' => '5.0.9999999.9999999-dev', 'pretty_version' => '5.0.x-dev'],
                 Ibexa50RuleSet::class,
             ],
+            'ibexa_package_6_0_branch' => [
+                ['name' => 'ibexa/core', 'version' => '6.0.9999999.9999999-dev', 'pretty_version' => '6.0.x-dev'],
+                Ibexa60RuleSet::class,
+            ],
             'ibexa_package_detached_head' => [
                 ['name' => 'ibexa/core', 'version' => 'dev-52e54b6f2a96e442ef5938e822ee900ce1800466'],
-                Ibexa50RuleSet::class,
+                Ibexa60RuleSet::class,
             ],
             'ibexa_package_dev_main_with_alias' => [
                 ['name' => 'ibexa/core', 'version' => 'dev-main', 'aliases' => ['4.6.x-dev']],
@@ -145,10 +154,20 @@ final class InternalConfigFactoryTest extends TestCase
                 ['5.0.x-dev'],
                 Ibexa50RuleSet::class,
             ],
+            'detached_head_on_6_0' => [
+                ['name' => 'ibexa/scheduler', 'version' => 'dev-52e54b6f2a96e442ef5938e822ee900ce1800466'],
+                ['6.0.x-dev'],
+                Ibexa60RuleSet::class,
+            ],
             'misguessed_version_on_4_6' => [
                 ['name' => 'ibexa/scheduler', 'version' => '6.0.9999999.9999999-dev', 'pretty_version' => '6.0.x-dev'],
                 ['4.6.x-dev'],
                 Ibexa46RuleSet::class,
+            ],
+            'misguessed_version_on_5_0' => [
+                ['name' => 'ibexa/scheduler', 'version' => '6.0.9999999.9999999-dev', 'pretty_version' => '6.0.x-dev'],
+                ['5.0.x-dev'],
+                Ibexa50RuleSet::class,
             ],
             'non_ibexa_package_ignores_aliases' => [
                 ['name' => 'vendor/package', 'version' => 'dev-main'],
