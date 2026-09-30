@@ -105,7 +105,7 @@ final class InternalConfigFactory
     }
 
     /**
-     * @return string[]
+     * @return list<string>
      *
      * @throws \JsonException
      */
