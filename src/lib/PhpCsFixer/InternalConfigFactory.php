@@ -21,6 +21,18 @@ use PhpCsFixer\Runner\Parallel\ParallelConfigFactory;
  */
 final class InternalConfigFactory
 {
+    /**
+     * Minimum Ibexa version each rule set applies to, newest first.
+     * Supporting a new version means adding its rule set on top.
+     *
+     * @var array<string, class-string<RuleSetInterface>>
+     */
+    private const RULE_SETS_BY_MIN_VERSION = [
+        '6.0' => Sets\Ibexa60RuleSet::class,
+        '5.0' => Sets\Ibexa50RuleSet::class,
+        '4.6' => Sets\Ibexa46RuleSet::class,
+    ];
+
     /** @var array<string, mixed> */
     private array $customRules = [];
 
@@ -82,7 +94,7 @@ final class InternalConfigFactory
         array $branchAliases = []
     ): RuleSetInterface {
         if (!str_starts_with($package['name'], 'ibexa/')) {
-            return new Sets\Ibexa46RuleSet();
+            return $this->createOldestRuleSet();
         }
 
         $candidates = array_merge(
@@ -94,14 +106,31 @@ final class InternalConfigFactory
         foreach ($candidates as $candidate) {
             // Matches "4.6.0", "5.0.0-alpha1", "5.0.x-dev" and "dev-4.6" alike
             if (preg_match('/^(?:dev-)?v?(\d+)\.(\d+)/', $candidate, $matches) === 1) {
-                return version_compare($matches[1] . '.' . $matches[2], '5.0', '>=')
-                    ? new Sets\Ibexa50RuleSet()
-                    : new Sets\Ibexa46RuleSet();
+                return $this->createRuleSetForVersion($matches[1] . '.' . $matches[2]);
             }
         }
 
         // No numeric version to go by (e.g. "dev-main", "*") - assume the newest rule set
-        return new Sets\Ibexa50RuleSet();
+        $ruleSetClass = self::RULE_SETS_BY_MIN_VERSION[array_key_first(self::RULE_SETS_BY_MIN_VERSION)];
+
+        return new $ruleSetClass();
+    }
+
+    private function createRuleSetForVersion(string $version): RuleSetInterface
+    {
+        foreach (self::RULE_SETS_BY_MIN_VERSION as $minVersion => $ruleSetClass) {
+            if (version_compare($version, $minVersion, '>=')) {
+                return new $ruleSetClass();
+            }
+        }
+
+        // Older than any supported version
+        return $this->createOldestRuleSet();
+    }
+
+    private function createOldestRuleSet(): RuleSetInterface
+    {
+        return new Sets\Ibexa46RuleSet();
     }
 
     /**
@@ -126,6 +155,9 @@ final class InternalConfigFactory
         return is_array($branchAliases) ? array_values(array_filter($branchAliases, 'is_string')) : [];
     }
 
+    /**
+     * @throws \JsonException
+     */
     public function buildConfig(): ConfigInterface
     {
         $config = $this->getRuleSet()->buildConfig();
@@ -145,6 +177,9 @@ final class InternalConfigFactory
         return $config;
     }
 
+    /**
+     * @throws \JsonException
+     */
     public static function build(bool $runInParallel = false): ConfigInterface
     {
         return (new self())->runInParallel($runInParallel)->buildConfig();
