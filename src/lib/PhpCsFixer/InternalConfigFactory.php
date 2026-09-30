@@ -45,9 +45,21 @@ final class InternalConfigFactory
         return $this;
     }
 
+    /**
+     * @throws \JsonException
+     */
     public function getRuleSet(): RuleSetInterface
     {
-        return $this->ruleSet ??= $this->createRuleSetFromPackage(InstalledVersions::getRootPackage());
+        if (!isset($this->ruleSet)) {
+            $rootPackage = InstalledVersions::getRootPackage();
+
+            $this->ruleSet = $this->createRuleSetFromPackage(
+                $rootPackage,
+                $this->getRootBranchAliases($rootPackage['install_path'] ?? null),
+            );
+        }
+
+        return $this->ruleSet;
     }
 
     public function runInParallel(bool $runInParallel = true): self
@@ -58,27 +70,60 @@ final class InternalConfigFactory
     }
 
     /**
-     * @param array{name: string, version: string, pretty_version?: string} $package
+     * Branch aliases are checked first, as the guessed root version is unreliable for a
+     * detached checkout (CI builds a PR from a merge commit, which Composer sees as `dev-<sha>`)
+     * or for a feature branch equally distant from several release branches.
+     *
+     * @param array{name: string, version: string, pretty_version?: string, aliases?: string[]} $package
+     * @param string[] $branchAliases
      */
-    private function createRuleSetFromPackage(array $package): RuleSetInterface
-    {
+    private function createRuleSetFromPackage(
+        array $package,
+        array $branchAliases = []
+    ): RuleSetInterface {
         if (!str_starts_with($package['name'], 'ibexa/')) {
             return new Sets\Ibexa46RuleSet();
         }
 
-        $version = $package['pretty_version'] ?? $package['version'];
-        if (str_starts_with($version, 'dev-') || $version === '*') {
-            return new Sets\Ibexa50RuleSet();
+        $candidates = array_merge(
+            $branchAliases,
+            $package['aliases'] ?? [],
+            [$package['pretty_version'] ?? $package['version']],
+        );
+
+        foreach ($candidates as $candidate) {
+            // Matches "4.6.0", "5.0.0-alpha1", "5.0.x-dev" and "dev-4.6" alike
+            if (preg_match('/^(?:dev-)?v?(\d+)\.(\d+)/', $candidate, $matches) === 1) {
+                return version_compare($matches[1] . '.' . $matches[2], '5.0', '>=')
+                    ? new Sets\Ibexa50RuleSet()
+                    : new Sets\Ibexa46RuleSet();
+            }
         }
 
-        // Remove any suffix like -dev, -alpha, etc.
-        $version = (string)preg_replace('/-.*$/', '', $version);
+        // No numeric version to go by (e.g. "dev-main", "*") - assume the newest rule set
+        return new Sets\Ibexa50RuleSet();
+    }
 
-        if (version_compare($version, '5.0.0', '>=')) {
-            return new Sets\Ibexa50RuleSet();
+    /**
+     * @return list<string>
+     *
+     * @throws \JsonException
+     */
+    private function getRootBranchAliases(?string $installPath): array
+    {
+        if ($installPath === null || !is_file($installPath . '/composer.json')) {
+            return [];
         }
 
-        return new Sets\Ibexa46RuleSet();
+        $composerJson = json_decode(
+            (string)file_get_contents($installPath . '/composer.json'),
+            true,
+            512,
+            JSON_THROW_ON_ERROR
+        );
+        $branchAliases = $composerJson['extra']['branch-alias'] ?? [];
+
+        return is_array($branchAliases) ? array_values(array_filter($branchAliases, 'is_string')) : [];
     }
 
     public function buildConfig(): ConfigInterface
