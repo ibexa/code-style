@@ -45,6 +45,9 @@ final class InternalConfigFactory
         return $this;
     }
 
+    /**
+     * @throws \JsonException
+     */
     public function getRuleSet(): RuleSetInterface
     {
         if (!isset($this->ruleSet)) {
@@ -103,6 +106,8 @@ final class InternalConfigFactory
 
     /**
      * @return string[]
+     *
+     * @throws \JsonException
      */
     private function getRootBranchAliases(?string $installPath): array
     {
@@ -110,7 +115,12 @@ final class InternalConfigFactory
             return [];
         }
 
-        $composerJson = json_decode((string)file_get_contents($installPath . '/composer.json'), true);
+        $composerJson = json_decode(
+            (string)file_get_contents($installPath . '/composer.json'),
+            true,
+            512,
+            JSON_THROW_ON_ERROR
+        );
         $branchAliases = $composerJson['extra']['branch-alias'] ?? [];
 
         return is_array($branchAliases) ? array_values(array_filter($branchAliases, 'is_string')) : [];
