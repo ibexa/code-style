@@ -91,7 +91,93 @@ final class InternalConfigFactoryTest extends TestCase
                 ['name' => 'ibexa/core', 'version' => '4.6.0-beta1'],
                 Ibexa46RuleSet::class,
             ],
+            'ibexa_package_4_6_branch' => [
+                ['name' => 'ibexa/core', 'version' => '4.6.9999999.9999999-dev', 'pretty_version' => '4.6.x-dev'],
+                Ibexa46RuleSet::class,
+            ],
+            'ibexa_package_5_0_branch' => [
+                ['name' => 'ibexa/core', 'version' => '5.0.9999999.9999999-dev', 'pretty_version' => '5.0.x-dev'],
+                Ibexa50RuleSet::class,
+            ],
+            'ibexa_package_detached_head' => [
+                ['name' => 'ibexa/core', 'version' => 'dev-52e54b6f2a96e442ef5938e822ee900ce1800466'],
+                Ibexa50RuleSet::class,
+            ],
+            'ibexa_package_dev_main_with_alias' => [
+                ['name' => 'ibexa/core', 'version' => 'dev-main', 'aliases' => ['4.6.x-dev']],
+                Ibexa46RuleSet::class,
+            ],
         ];
+    }
+
+    /**
+     * @dataProvider provideBranchAliasTestCases
+     *
+     * @param array{name: string, version: string, pretty_version?: string} $package
+     * @param string[] $branchAliases
+     * @param class-string $expectedRuleSetClass
+     *
+     * @throws \ReflectionException
+     */
+    public function testBranchAliasTakesPrecedence(
+        array $package,
+        array $branchAliases,
+        string $expectedRuleSetClass
+    ): void {
+        $ruleSet = $this->createRuleSetFromPackage->invoke($this->factory, $package, $branchAliases);
+
+        self::assertInstanceOf($expectedRuleSetClass, $ruleSet);
+    }
+
+    /**
+     * @return array<string, array{0: array{name: string, version: string, pretty_version?: string}, 1: string[], 2: class-string}>
+     */
+    public function provideBranchAliasTestCases(): array
+    {
+        return [
+            'detached_head_on_4_6' => [
+                ['name' => 'ibexa/scheduler', 'version' => 'dev-52e54b6f2a96e442ef5938e822ee900ce1800466'],
+                ['4.6.x-dev'],
+                Ibexa46RuleSet::class,
+            ],
+            'detached_head_on_5_0' => [
+                ['name' => 'ibexa/scheduler', 'version' => 'dev-52e54b6f2a96e442ef5938e822ee900ce1800466'],
+                ['5.0.x-dev'],
+                Ibexa50RuleSet::class,
+            ],
+            'misguessed_version_on_4_6' => [
+                ['name' => 'ibexa/scheduler', 'version' => '6.0.9999999.9999999-dev', 'pretty_version' => '6.0.x-dev'],
+                ['4.6.x-dev'],
+                Ibexa46RuleSet::class,
+            ],
+            'non_ibexa_package_ignores_aliases' => [
+                ['name' => 'vendor/package', 'version' => 'dev-main'],
+                ['6.0.x-dev'],
+                Ibexa46RuleSet::class,
+            ],
+        ];
+    }
+
+    public function testRootBranchAliasesAreReadFromComposerJson(): void
+    {
+        $installPath = sys_get_temp_dir() . '/ibexa-code-style-' . uniqid('', true);
+        mkdir($installPath);
+        file_put_contents(
+            $installPath . '/composer.json',
+            (string)json_encode(['extra' => ['branch-alias' => ['dev-main' => '4.6.x-dev']]]),
+        );
+
+        try {
+            $getRootBranchAliases = (new ReflectionClass(InternalConfigFactory::class))->getMethod('getRootBranchAliases');
+            $getRootBranchAliases->setAccessible(true);
+
+            self::assertSame(['4.6.x-dev'], $getRootBranchAliases->invoke($this->factory, $installPath));
+            self::assertSame([], $getRootBranchAliases->invoke($this->factory, $installPath . '/missing'));
+            self::assertSame([], $getRootBranchAliases->invoke($this->factory, null));
+        } finally {
+            unlink($installPath . '/composer.json');
+            rmdir($installPath);
+        }
     }
 
     public function testWithRuleSet(): void
