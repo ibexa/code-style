@@ -28,6 +28,7 @@ final class Ibexa50RuleSet extends AbstractIbexaRuleSet
                         'property',
                     ],
                 ],
+                'native_function_invocation' => true,
                 'native_type_declaration_casing' => true,
                 'new_with_parentheses' => true,
                 'no_trailing_comma_in_singleline' => [
