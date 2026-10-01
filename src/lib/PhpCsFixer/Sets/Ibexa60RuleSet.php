@@ -8,48 +8,19 @@ declare(strict_types=1);
 
 namespace Ibexa\CodeStyle\PhpCsFixer\Sets;
 
+/**
+ * 6.0 packages are aligned to PHPUnit 11, which made mock expectation methods (`once()`, `never()`, etc.) non-static.
+ */
 final class Ibexa60RuleSet extends AbstractIbexaRuleSet
 {
     public function getRules(): array
     {
         return array_merge(
+            (new Ibexa50RuleSet())->getRules(),
             [
-                '@PER-CS2x0' => true,
-            ],
-            parent::getRules(),
-            [
-                'spaces_inside_parentheses' => [
-                    'space' => 'none',
-                ],
-                'declare_parentheses' => true,
-                'type_declaration_spaces' => [
-                    'elements' => [
-                        'function',
-                        'property',
-                    ],
-                ],
-                'native_type_declaration_casing' => true,
-                'new_with_parentheses' => true,
-                'no_trailing_comma_in_singleline' => [
-                    'elements' => [
-                        'arguments',
-                        'array_destructuring',
-                        'array',
-                        'group_import',
-                    ],
-                ],
-                'no_unneeded_braces' => true,
-                'blank_lines_before_namespace' => true,
-                'class_definition' => [
-                    'single_item_single_line' => true,
-                    'inline_constructor_arguments' => false,
-                ],
                 'php_unit_test_case_static_method_calls' => [
                     'call_type' => 'self',
                     'target' => '11.0',
-                ],
-                'types_spaces' => [
-                    'space' => 'single',
                 ],
             ],
         );
