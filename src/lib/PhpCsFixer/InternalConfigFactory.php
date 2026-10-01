@@ -130,7 +130,9 @@ final class InternalConfigFactory
 
     private function createOldestRuleSet(): RuleSetInterface
     {
-        return new Sets\Ibexa46RuleSet();
+        $ruleSetClass = self::RULE_SETS_BY_MIN_VERSION[array_key_last(self::RULE_SETS_BY_MIN_VERSION)];
+
+        return new $ruleSetClass();
     }
 
     /**
