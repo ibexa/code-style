@@ -10,6 +10,7 @@ namespace Ibexa\Tests\CodeStyle\PhpCsFixer\Rule;
 
 use Ibexa\CodeStyle\PhpCsFixer\Sets\Ibexa46RuleSet;
 use Ibexa\CodeStyle\PhpCsFixer\Sets\Ibexa50RuleSet;
+use Ibexa\CodeStyle\PhpCsFixer\Sets\Ibexa60RuleSet;
 use Ibexa\CodeStyle\PhpCsFixer\Sets\RuleSetInterface;
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Fixer\Import\OrderedImportsFixer;
@@ -59,6 +60,7 @@ final class OrderedImportsFixerTest extends TestCase
     public static function provideFixCases(): iterable
     {
         $ruleSets = [
+            '60 ruleset' => new Ibexa60RuleSet(),
             '50 ruleset' => new Ibexa50RuleSet(),
             '46 ruleset' => new Ibexa46RuleSet(),
         ];
