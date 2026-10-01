@@ -12,9 +12,11 @@ use Ibexa\CodeStyle\PhpCsFixer\InternalConfigFactory;
 use Ibexa\CodeStyle\PhpCsFixer\Sets\Ibexa46RuleSet;
 use Ibexa\CodeStyle\PhpCsFixer\Sets\Ibexa50RuleSet;
 use Ibexa\CodeStyle\PhpCsFixer\Sets\Ibexa60RuleSet;
+use Ibexa\CodeStyle\PhpCsFixer\Sets\RuleSetInterface;
 use PhpCsFixer\ParallelAwareConfigInterface;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
+use ReflectionClassConstant;
 use ReflectionMethod;
 
 /**
@@ -196,6 +198,26 @@ final class InternalConfigFactoryTest extends TestCase
         } finally {
             unlink($installPath . '/composer.json');
             rmdir($installPath);
+        }
+    }
+
+    /**
+     * The newest and the oldest rule sets are picked by position, so the map must stay sorted.
+     */
+    public function testRuleSetsAreOrderedFromNewestToOldest(): void
+    {
+        $ruleSets = (new ReflectionClassConstant(InternalConfigFactory::class, 'RULE_SETS_BY_MIN_VERSION'))->getValue();
+        self::assertIsArray($ruleSets);
+
+        $minVersions = array_map('strval', array_keys($ruleSets));
+        $sortedMinVersions = $minVersions;
+        usort($sortedMinVersions, static fn (string $a, string $b): int => version_compare($b, $a));
+
+        self::assertSame($sortedMinVersions, $minVersions);
+        self::assertSame(Ibexa46RuleSet::class, end($ruleSets));
+
+        foreach ($ruleSets as $ruleSetClass) {
+            self::assertTrue(is_a($ruleSetClass, RuleSetInterface::class, true), $ruleSetClass);
         }
     }
 
